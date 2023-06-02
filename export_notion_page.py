@@ -1,6 +1,8 @@
 import os
 import urllib3
 from notion.client import NotionClient
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # Set the required version of urllib3
 urllib3.disable_warnings()
