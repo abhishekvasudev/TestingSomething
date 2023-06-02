@@ -1,5 +1,10 @@
 import os
+import urllib3
 from notion.client import NotionClient
+
+# Set the required version of urllib3
+urllib3.disable_warnings()
+urllib3.__version__ = "1.26.6"
 
 # Get Notion token and page URL from environment variables
 token = os.environ.get("NOTION_TOKEN")
