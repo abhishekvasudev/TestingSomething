@@ -25,6 +25,7 @@ jobs:
 
       - name: Export Notion Page
         env:
+          NOTION_TOKEN: "v02:user_token_or_cookies:s6kwGCyQR58os8e3AkPG6DIcFvf5pcYp0u_IGLtheSN8zNVIveCCrDMYsXSLZKcwWfeuXsQldCkpngTYXHmD7Jv_DWKIK0AGu6hCExz-bYmNnegFo9BFRXPOkR9lu9yAe5qa"
           NOTION_PAGE_URL: "https://www.notion.so/abhishekvasudev/Abhishek-Vasudev-9f2745035a67456c88c91d7ab010604f"
         run: |
           python export_notion_page.py
