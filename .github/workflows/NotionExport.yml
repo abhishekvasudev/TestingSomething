@@ -1,0 +1,49 @@
+name: Export Notion Subpages
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Trigger every Sunday at 00:00 UTC
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Dependencies
+        run: |
+          # Install dependencies for exporting Notion page as HTML
+          npm install -g @superflycss/cli
+
+          # Install the notion-to-html package
+          npm install -g notion-to-html
+
+      - name: Export Notion Subpages as HTML
+        env:
+          NOTION_PAGE_URL: "https://www.notion.so/abhishekvasudev/Abhishek-Vasudev-9f2745035a67456c88c91d7ab010604f"
+        run: |
+          # Export subpages as HTML
+          notion-to-html $NOTION_PAGE_URL
+
+          # Create a subdirectory for the exported subpages
+          export_dir="exported_subpages"
+          mkdir $export_dir
+
+          # Move the exported subpages to the subdirectory
+          mv notion_exports/* $export_dir/
+
+      - name: Commit and Push Changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: Exported Notion subpages as HTML
+          add: exported_subpages
+          push: true
