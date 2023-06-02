@@ -6,6 +6,22 @@ from notion.client import NotionClient
 urllib3.disable_warnings()
 urllib3.__version__ = "1.26.6"
 
+# Create a custom Retry object with the correct attribute
+retry = Retry(
+    total=5,
+    backoff_factor=0.3,
+    status_forcelist=[500, 502, 503, 504],
+    method_whitelist=False
+)
+
+# Create a custom HTTPAdapter with the custom Retry object
+adapter = HTTPAdapter(max_retries=retry)
+
+# Create a new session and mount the custom adapter
+session = urllib3.PoolManager()
+session.mount("http://", adapter)
+session.mount("https://", adapter)
+
 # Get Notion token and page URL from environment variables
 token = os.environ.get("NOTION_TOKEN")
 page_url = os.environ.get("NOTION_PAGE_URL")
