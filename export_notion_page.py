@@ -5,24 +5,32 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 # Set the required version of urllib3
-urllib3.disable_warnings()
-urllib3.__version__ = "1.26.6"
+# urllib3.disable_warnings()
+# urllib3.__version__ = "1.26.6"
 
 # Create a custom Retry object with the correct attribute
-retry = Retry(
-    total=5,
-    backoff_factor=0.3,
-    status_forcelist=[500, 502, 503, 504],
-    method_whitelist=False
-)
+# retry = Retry(
+#     total=5,
+#     backoff_factor=0.3,
+#     status_forcelist=[500, 502, 503, 504],
+#     method_whitelist=False
+# )
 
 # Create a custom HTTPAdapter with the custom Retry object
-adapter = HTTPAdapter(max_retries=retry)
+# adapter = HTTPAdapter(max_retries=retry)
 
 # Create a new session and mount the custom adapter
-session = urllib3.PoolManager()
-session.mount("http://", adapter)
-session.mount("https://", adapter)
+# session = urllib3.PoolManager()
+# session.mount("http://", adapter)
+# session.mount("https://", adapter)
+
+# Downgrade urllib3 to a compatible version
+urllib3_version = "1.25.11"
+urllib3.__version__ = urllib3_version
+urllib3.disable_warnings()
+
+# Disable warnings from urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Get Notion token and page URL from environment variables
 token = os.environ.get("NOTION_TOKEN")
